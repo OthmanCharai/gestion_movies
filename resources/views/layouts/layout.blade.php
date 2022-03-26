@@ -10,14 +10,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 		function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //for-mobile-apps -->
-<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" type="text/css" media="all" />
 
 <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
 
 <!-- //font-awesome icons -->
 <!-- js -->
-<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="{{ asset('js/jquery-2.1.4.min.js') }}"></script>
 <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"><
 
 <!-- //js -->
 
@@ -66,8 +68,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="w3l_sign_in_register">
 				<ul>
 					<li><i class="fa fa-phone" aria-hidden="true"></i> 11122233345</li>
-					<li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
+					@auth
+                    <li><a class="dropdown-item text-white"  href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                      document.getElementById('logout-form').submit();">
+                         {{ __('Logout') }}
+                     </a>
+
+                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                         @csrf
+                     </form></li>
+                    @endauth
+                    @guest
+                        <li><a href="{{ route('login') }}">Login</a></li>
+                    @endguest
 				</ul>
+
 			</div>
 			<div class="clearfix"> </div>
 		</div>

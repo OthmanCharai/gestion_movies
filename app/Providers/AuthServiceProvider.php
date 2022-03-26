@@ -14,6 +14,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Comment' => 'App\Policies\CommentPolicy',
+
     ];
 
     /**
@@ -26,5 +28,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
+        // if a user is admin he can do anythink we give it to him in ability
+        Gate::before(function($user,$ability){
+            if($user->is_admin && in_array($ability,['update','delete','create'])){
+                return true;
+            }
+        });
     }
 }

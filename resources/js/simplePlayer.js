@@ -70,7 +70,7 @@ window.onYouTubeIframeAPIReady = function() {
 				video.children('img').hide();
 
 				$(this).css('background-image', 'url(play-button.png), url(' + video.children().attr('src') + ')').hide();
-	
+
 				player = new YT.Player('player', {events: {'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady}});
 			}
 

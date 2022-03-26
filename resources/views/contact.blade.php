@@ -1,60 +1,6 @@
 @extends('layouts.layout')
 @section('content')
-<!-- bootstrap-pop-up -->
-<div class="modal video-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                Sign In & Sign Up
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <section>
-                <div class="modal-body">
-                    <div class="w3_login_module">
-                        <div class="module form-module">
-                          <div class="toggle"><i class="fa fa-times fa-pencil"></i>
-                            <div class="tooltip">Click Me</div>
-                          </div>
-                          <div class="form">
-                            <h3>Login to your account</h3>
-                            <form action="#" method="post">
-                              <input type="text" name="Username" placeholder="Username" required="">
-                              <input type="password" name="Password" placeholder="Password" required="">
-                              <input type="submit" value="Login">
-                            </form>
-                          </div>
-                          <div class="form">
-                            <h3>Create an account</h3>
-                            <form action="#" method="post">
-                              <input type="text" name="Username" placeholder="Username" required="">
-                              <input type="password" name="Password" placeholder="Password" required="">
-                              <input type="email" name="Email" placeholder="Email Address" required="">
-                              <input type="text" name="Phone" placeholder="Phone Number" required="">
-                              <input type="submit" value="Register">
-                            </form>
-                          </div>
-                          <div class="cta"><a href="#">Forgot your password?</a></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
-</div>
-<script>
-    $('.toggle').click(function(){
-      // Switches the Icon
-      $(this).children('i').toggleClass('fa-pencil');
-      // Switches the forms
-      $('.form').animate({
-        height: "toggle",
-        'padding-top': 'toggle',
-        'padding-bottom': 'toggle',
-        opacity: "toggle"
-      }, "slow");
-    });
-</script>
-<!-- //bootstrap-pop-up -->
+
 <!-- nav -->
 <div class="movies_nav">
     <div class="container">
@@ -71,11 +17,11 @@
             <div class="collapse navbar-collapse navbar-right justify-content-around" id="bs-example-navbar-collapse-1">
                 <nav>
                     <ul class="nav navbar-nav">
-                        <li ><a href="index.html">Home</a></li>
+                        <li ><a href="{{ route('series.index') }}">Home</a></li>
 
-                        <li class="active"><a href="series.html">tv - series</a></li>
-
-                        <li><a href="short-codes.html">Contact</a></li>
+                        <li ><a href="{{ route('serie') }}">tv - series</a></li>
+                        
+                        <li class="active"><a href="{{ route('contact') }}">Contact</a></li>
 
                     </ul>
                 </nav>
@@ -129,13 +75,12 @@
                 </ul>
             </div>
             <div class="clearfix"></div>
-            <form action="#" method="post">
-                <input type="text" name="your name" placeholder="FIRST NAME" required="">
-                <input type="text" name="your name" placeholder="LAST NAME" required="">
-                <input type="text" name="your email" placeholder="EMAIL" required="">
-                <input type="text" name="subject" placeholder="SUBJECT" required="">
-                <textarea  name="your message" placeholder="YOUR MESSAGE" required=""></textarea>
-                <input type="submit" value="SEND MESSAGE">
+            <form action="{{ route('contact.store') }}" method="post">
+                @csrf
+                <input type="text" name="name" placeholder="NAME" required="">
+                <input type="text" name="email" placeholder="EMAIL" required="">
+                <textarea  name="message" placeholder="YOUR MESSAGE" required=""></textarea>
+                <button type="submit" class="btn btn-warning">SEND MESSAGE</button>
             </form>
         </div>
     </div>

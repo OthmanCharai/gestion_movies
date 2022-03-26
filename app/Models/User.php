@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+
     ];
 
     /**
@@ -41,4 +42,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     *  relationship with serires
+     */
+    public function series(){
+        return $this->hasMany(Serie::class);
+    }
+
+    /**
+     * rlt with serie rating
+     */
+    public function favorite(){
+        return $this->belongsToMany(Serie::class,'rating','user_id','serie_id')->withPivot('note')->withTimestamps();
+    }
+
+    /**
+     *  relationship with comment
+     */
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
 }
