@@ -22,7 +22,8 @@
 
                         <li><a href="{{ route('contact.index') }}">Contact</a></li>
                         @auth
-                            <li class="active"><a href="{{ route('user.series') }}">My Series</a></li>
+                            <li class=""><a href="{{ route('user.series') }}">My Series</a></li>
+                            <li class="active"><a href="{{ route('acteur.index') }}">Acteurs</a></li>
                         @endauth
                         @can('isAdmin')
                                 <li><a href="{{ route('user.index') }}">User</a></li>
@@ -46,34 +47,34 @@
                       <li class="active">Single</li>
                     </ol>
                 </div>
-                <div class="agileits-single-top" style="float: right">
-                    <a href="{{ route('series.create') }}" class="btn btn-primary">Add Serie</a>
-                </div>
                 @if(session()->has('status'))
-                <div class="div alert alert-success agileits-single-top">
+                <div class="div alert alert-success agileits-single-top pt-5">
                     {{ session()->get('status') }}
                 </div>
                 @endif
+                <div class="agileits-single-top" style="float: right">
+                    <a href="{{ route('acteur.create') }}" class="btn btn-primary">Add Acteur</a>
+                </div>
+
                 <div class="row " style="margin-top:80px">
                     <table id="serie_table" class="display ">
                         <thead>
                             <tr>
-                                <th>Title</th>
-                                <th>Acteur</th>
-                                <th>Owner</th>
+                                <th>Name</th>
+                                <th>Biographie</th>
                                 <th>Image</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($series as $serie )
+                            @foreach ($acteurs as $acteur )
                                 <tr>
-                                    <td>{{ $serie->title }}</td>
-                                    <td>{{ $serie->acteur->name }}</td>
-                                    <td>{{ $serie->user->name }}</td>
-                                    <td><img style="height:100px;width:100px" src="{{ $serie->url }}"></td>
+                                    <td>{{ $acteur->name }}</td>
+                                    <td>{{ $acteur->biographie }}</td>
+                                    <td><img style="height:100px;width:100px" src="{{ $acteur->image }}"></td>
                                     <td class="text-center">
                                         <div class="btn-group">
+                                            @can('isAdmin')
                                             <a href="{{ route('series.edit',$serie->id) }}"  class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Edit Product">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -89,6 +90,8 @@
                                                       </svg>
                                                 </button>
                                             </form>
+                 @endcan
+
                                         </div>
                                     </td>
                                 </tr>

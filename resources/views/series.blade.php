@@ -35,7 +35,15 @@
 
                         <li class="active"><a href="{{ route('serie') }}">tv - series</a></li>
 
-                        <li><a href="{{ route('contact') }}">Contact</a></li>
+                        <li><a href="{{ route('contact.index') }}">Contact</a></li>
+                        @auth
+                            <li><a href="{{ route('user.series') }}">My Series</a></li>
+                            <li class="active"><a href="{{ route('acteur.index') }}">Acteurs</a></li>
+
+                        @endauth
+                        @can('isAdmin')
+                                <li><a href="{{ route('user.index') }}">User</a></li>
+                        @endcan
 
                     </ul>
                 </nav>

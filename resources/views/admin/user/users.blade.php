@@ -18,9 +18,15 @@
                     <ul class="nav navbar-nav">
                         <li ><a href="{{ route('series.index') }}">Home</a></li>
 
-                        <li class="active"><a href="{{ route('serie') }}">tv - series</a></li>
+                        <li ><a href="{{ route('serie') }}">tv - series</a></li>
 
-                        <li><a href="{{ route('contact') }}">Contact</a></li>
+                        <li><a href="{{ route('contact.index') }}">Contact</a></li>
+                        @auth
+                            <li ><a href="{{ route('user.series') }}">My Series</a></li>
+                        @endauth
+                        @can('isAdmin')
+                                <li class="active"><a href="{{ route('user.index') }}">User</a></li>
+                        @endcan
 
                     </ul>
                 </nav>
@@ -40,7 +46,12 @@
                       <li class="active">Single</li>
                     </ol>
                 </div>
-                <div class="row">
+                @if(session()->has('status'))
+                <div class="div alert alert-success agileits-single-top">
+                    {{ session()->get('status') }}
+                </div>
+                @endif
+                <div class="row" style="margin-top:80px">
                     <table id="serie_table" class="display">
                         <thead>
                             <tr>
@@ -60,7 +71,8 @@
                                         <div class="btn-group">
                                             <form method="post" action="{{ route('user.destroy',$user->id) }}">
                                                 @csrf
-                                                <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Remove Product">
+                                                @method('DELETE')
+                                                <button  class="btn btn-sm btn-alt-secondary" data-bs-toggle="tooltip" title="Remove Product">
                                                     <i class="fa fa-fw fa-times"></i>
                                                 </button>
                                             </form>
@@ -77,5 +89,9 @@
                 </div>
             </div>
         <!-- //w3l-medile-movies-grids -->
-
+        <script>
+            $(document).ready(function() {
+            $('#serie_table').DataTable( {} );
+            } );
+        </script>
 @endsection

@@ -18,9 +18,15 @@
                     <ul class="nav navbar-nav">
                         <li ><a href="{{ route('series.index') }}">Home</a></li>
 
-                        <li class="active"><a href="{{ route('serie') }}">tv - series</a></li>
+                        <li ><a href="{{ route('serie') }}">tv - series</a></li>
 
-                        <li><a href="{{ route('contact') }}">Contact</a></li>
+                        <li><a href="{{ route('contact.index') }}">Contact</a></li>
+                        @auth
+                        <li class="active"><a href="{{ route('user.series') }}">My Series</a></li>
+                        @endauth
+                        @can('isAdmin')
+                                <li><a href="{{ route('user.index') }}">User</a></li>
+                        @endcan
 
                     </ul>
                 </nav>
@@ -42,7 +48,7 @@
                 </div>
                 <div class="row" style="margin-left:1px" >
                     <div class="col-md-12">
-                        <form action="{{ route('series.update',$serie) }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('series.update',$serie->id) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
@@ -58,17 +64,21 @@
                                 <input type="text" class="form-control"  name="tags" value="{{ $serie->tags }}" id="tags">
                             </div>
                             <div class="form-group">
+                                <label for="tags">Status</label>
+                                <input type="text" class="form-control"  name="status" value="{{ old('status',$serie->tags) }}" id="tags">
+                            </div>
+                            <div class="form-group">
                                 <label for="url">Image</label>
                                 <input type="file"  class="form-control" name="url"  value="{{ $serie->url }}" id="url">
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="is_populair" id="flexRadioDefault1">
+                                <input class="form-check-input" value="1" type="radio" name="is_populair" id="flexRadioDefault1">
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     Populaire
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="is_populair" id="flexRadioDefault2" checked>
+                                <input class="form-check-input" value="0" type="radio" name="is_populair" id="flexRadioDefault2" checked>
                                 <label class="form-check-label" for="flexRadioDefault2">
                                 Not Populaire
                                 </label>
@@ -78,10 +88,10 @@
                             </div>
                             <div class="form-group">
                                 <select class="form-control"  name="acteur" class="form-select" aria-label="Default select example">
-                                    <option value="othman">Open this select menu</option>
-                                    <option value="charai">One</option>
-                                    <option value="khalid">Two</option>
-                                    <option value="nihad">Three</option>
+                                    @foreach ($acteurs as $acteur)
+                                        <option value="{{ $acteur->id }}">{{ $acteur->name }}</option>
+                                    @endforeach
+
                                 </select>
                             </div>
                             <button class="btn btn-warning">Submit</button>

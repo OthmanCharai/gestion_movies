@@ -1,10 +1,5 @@
 @extends('layouts.layout')
 @section('content')
-<script>
-	$("document").ready(function() {
-		$("#video").simplePlayer();
-	});
-</script>
 
 <!-- nav -->
 <div class="movies_nav">
@@ -24,11 +19,11 @@
                     <ul class="nav navbar-nav">
                         <li ><a href="{{ route('series.index') }}">Home</a></li>
 
-                        <li class="active"><a href="{{ route('serie') }}">tv - series</a></li>
+                        <li class=""><a href="{{ route('serie') }}">tv - series</a></li>
 
                         <li><a href="{{ route('contact.index') }}">Contact</a></li>
                         @auth
-                            <li><a href="{{ route('user.series') }}">My Series</a></li>
+                                <li><a href="{{ route('user.series') }}">My Series</a></li>
                             <li class="active"><a href="{{ route('acteur.index') }}">Acteurs</a></li>
 
                         @endauth
@@ -60,81 +55,34 @@
                         {{ session()->get('status') }}
                     </div>
                     @endif
-                       <!-- /movie-browse-agile -->
+                    <!-- /movie-browse-agile -->
                    <div class="show-top-grids-w3lagile">
                     <div class="col-sm-8 single-left">
                         <div class="song">
                             <div class="song-info">
-                                <h3>{{ $serie->title }}</h3>
-                                <form method="post" action="{{ route('favorite') }}">
-                                    @csrf
-                                    <input type="hidden" name="serie_id" value="{{ $serie->id }}">
-                                    <button class="btn btn-success">Favorite</button>
-                                </form>
+                                <h3>{{ $acteur->name }}</h3>
                         </div>
                             <div class="video-grid-single-page-agileits">
-                                <div data-video="{{ $serie->trailler_url }}" id="video"> <img src="{{$serie->url}}" alt="" class="img-responsive" /> </div>
+                                <div  id="video"> <img src="{{$acteur->image}}" alt="" class="img-responsive" /> </div>
                             </div>
                         </div>
 
                         <div class="clearfix"> </div>
 
                         <div class="all-comments">
-                            <div class="all-comments-info">
-                                <a href="#">Comments</a>
-                                <div class="agile-info-wthree-box">
-                                    <form action={{ route('comment.store') }} method="post">
-                                        @csrf
-                                        <input type="hidden" value="{{ $serie->id }}" name="serie_id">
-                                        <textarea placeholder="Message" name="content" required=""></textarea>
-                                        <div class="clearfix"> </div>
-                                        <button class="btn btn-primary">Comment</button>
-                                    </form>
-                                </div>
-                            </div>
                             <div class="media-grids">
-                                @foreach ($serie->comments as $comment)
-                                    <div class="media">
-                                        <h5>{{ $comment->user->name }}</h5>
-                                        <div class="media-left">
-                                            <a href="#">
-                                                <img src="{{ asset('images/user.jpg') }}" title="One movies" alt=" " />
-                                            </a>
-                                        </div>
-                                        <div class="media-body ">
-                                            <p>{{ $comment->content }}</p>
-                                            @can('update',$comment)
-                                                <div class="d-flex"style="float: right;">
-                                                    <span style="mrgin-right:5px" >  <button id="formButton" class="btn btn-info"> Edit </span>
-
-                                                    <span>
-                                                    <form action="{{ route('comment.destroy',$comment) }}" method="post">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="btn btn-danger">Delte</button>
-                                                    </form>
-                                                    </span>
-
-                                                </div>
-                                            @endcan
-                                        </div>
-                                        <div class="agile-info-wthree-box" style="display:none" id="editComment">
-                                            <form action={{ route('comment.update',$comment) }} method="post" >
-                                                @csrf
-                                                @method('PUT')
-                                                <input type="hidden" value="{{ $serie->id }}" name="serie_id">
-                                                <textarea placeholder="Message" name="content" value="{{ $comment->content }}" required=""></textarea>
-                                                <div class="clearfix"> </div>
-                                                <button class="btn btn-primary">Save Changes</button>
-                                            </form>
-                                        </div>
+                                <div class="media">
+                                    <h3>Biographie : </h3>
+                                    <div class="media-body pt-2">
+                                        <p>{{ $acteur->biographie }}</p>
                                     </div>
-                                @endforeach
+
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 single-right">
-                        <h3>Up Next</h3>
+                        <h3>Other Series </h3>
                         <div class="single-grid-right">
                             @foreach ($series as $serie)
                                 <div class="single-right-grids">
@@ -142,7 +90,7 @@
                                         <a href="{{ route('series.show',$serie) }}"><img src="{{ $serie->url }}" alt="" /></a>
                                     </div>
                                     <div class="col-md-8 single-right-grid-right">
-                                        <a href="{{ route('series.show',$serie->id) }}" class="title"> {{ $serie->title }}</a>
+                                        <a href="single.html" class="title"> {{ $serie->title }}</a>
                                         <p class="author"><a href="{{ route('acteur.show',$serie->acteur->id) }}" class="author">{{ $serie->acteur->name }}</a></p>
                                         <p class="views">{{ $serie->number_of_view }} views</p>
                                     </div>
@@ -157,7 +105,7 @@
                     <!--body wrapper start-->
                 <div class="w3_agile_banner_bottom_grid">
                     <div id="owl-demo" class="owl-carousel owl-theme">
-                        @foreach ($topSeries as $series )
+                        @foreach ($topSeries as $serie )
                             <div class="item">
                                 <div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
                                     <a href="{{ route('series.show',$serie) }}" class="hvr-shutter-out-horizontal"><img src="{{ $serie->url }}" title="album-name" class="img-responsive" alt=" " />
@@ -195,11 +143,5 @@
                 </div>
             </div>
         <!-- //w3l-medile-movies-grids -->
-        <script>
-            $(document).ready(function() {
-                $("#formButton").click(function() {
-                $("#editComment").toggle();
-                });
-            });
-        </script>
+
 @endsection

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -14,6 +16,11 @@ class UserController extends Controller
     public function index()
     {
         //
+        $this->authorize('isAdmin');
+        $user=User::where('id','!=',Auth::user()->id)->get();
+        return view('admin.user.users',[
+            'users'=>$user,
+        ]);
     }
 
     /**
@@ -77,8 +84,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         //
+        $user=User::findOrFail($id);
+        $user->delete();
+        $request->session()->flash('status','user was deleted with success');
+        return redirect()->route('user.index');
+
+
     }
 }

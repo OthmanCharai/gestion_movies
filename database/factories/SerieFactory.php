@@ -20,7 +20,6 @@ class SerieFactory extends Factory
             //
             'title'=>$this->faker->sentence(5),
             'content'=>$this->faker->sentence(20),
-            'acteur'=>$this->faker->name(),
             'url'=>$this->faker->imageUrl(),
             'tags'=>$this->faker->sentence(5),
             'status'=>$this->faker->sentence(1),

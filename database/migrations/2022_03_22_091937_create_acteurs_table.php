@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('series', function (Blueprint $table) {
-            //
+        Schema::create('acteurs', function (Blueprint $table) {
+            $table->id();
+            $table->text('name');
+            $table->text('biographie');
+            $table->text('image');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('series', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('acteurs');
     }
 };

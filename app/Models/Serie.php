@@ -17,12 +17,13 @@ class Serie extends Model
     protected $fillable=[
         'title',
         'content',
-        'acteur',
+        'acteur_id',
         'url',
         'tags',
         'status',
         'trailler_url',
-        'is_populair'
+        'is_populair',
+
     ];
 
     /**
@@ -44,6 +45,13 @@ class Serie extends Model
      */
     public function comments(){
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     *  relationship with with acteur
+     */
+    public function acteur(){
+        return $this->belongsTo(Acteur::class);
     }
 
     /**

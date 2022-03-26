@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
          */
         $this->call([
             UserSeeder::class,
+            ActeurSeeder::class,
             SerieSeeder::class,
             CommentSeeder::class,
             ContactSeeder::class,

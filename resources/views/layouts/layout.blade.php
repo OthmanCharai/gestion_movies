@@ -113,30 +113,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="clearfix"> </div>
 			</div>
 			<div class="col-md-5 w3ls_footer_grid1_left">
-				<p>&copy; 2016 One Movies. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+				<p>&copy; 2016 One Movies. All rights reserved | Design by Nihad</p>
 			</div>
 			<div class="col-md-7 w3ls_footer_grid1_right">
 				<ul>
 					<li>
-						<a href="genres.html">Movies</a>
+						<a href="#">Movies</a>
 					</li>
 					<li>
-						<a href="faq.html">FAQ</a>
+						<a href="#">FAQ</a>
 					</li>
 					<li>
-						<a href="horror.html">Action</a>
+						<a href="#">Action</a>
 					</li>
 					<li>
-						<a href="genres.html">Adventure</a>
+						<a href="#">Adventure</a>
 					</li>
 					<li>
-						<a href="comedy.html">Comedy</a>
+						<a href="#">Comedy</a>
 					</li>
 					<li>
-						<a href="icons.html">Icons</a>
+						<a href="#">Icons</a>
 					</li>
 					<li>
-						<a href="contact.html">Contact Us</a>
+						<a href="{{ route('contact.index') }}">Contact Us</a>
 					</li>
 				</ul>
 			</div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\StoreSerieRequest;
+use App\Models\Acteur;
 use App\Models\Serie;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -57,7 +58,12 @@ class SerieController extends Controller
     public function create()
     {
         //
-        return view('admin.serie.add_series');
+        $acteurs=Acteur::all();
+        return view('admin.serie.add_series',[
+            "acteurs"=>$acteurs
+
+        ]
+    );
     }
 
     /**
@@ -79,7 +85,7 @@ class SerieController extends Controller
         $data=[
             'title'=>$request->title,
             'content'=>$request->content,
-            'acteur'=>$request->acteur,
+            'acteur_id'=>$request->acteur,
             'url'=>$url,
             'tags'=>$request->tags,
             'status'=>$request->status,
@@ -94,7 +100,7 @@ class SerieController extends Controller
         /**
          *  go back to home page
          */
-        return redirect()->route('series.index');
+        return redirect()->route('user.series');
 
     }
 
@@ -135,9 +141,16 @@ class SerieController extends Controller
      * @param  \App\Models\Serie  $serie
      * @return \Illuminate\Http\Response
      */
-    public function edit(Serie $serie)
+    public function edit( $serie)
     {
         //
+        $acteurs=Acteur::all();
+
+        $serie=Serie::find($serie);
+        return view('admin.serie.edit_series',[
+            'serie'=>$serie,
+            'acteurs'=>$acteurs
+        ]);
 
     }
 
@@ -148,16 +161,27 @@ class SerieController extends Controller
      * @param  \App\Models\Serie  $serie
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreSerieRequest $request, Serie $serie)
+    public function update(StoreSerieRequest $request,  $serie)
     {
         /**
          *  update serie
          */
+        $serie=Serie::find($serie);
+        if($request->hasFile('url')){
+            $image=$request->file('url');
+            $image=Storage::disk('public')->putFile('images',$image);
+            $url=Storage::url($image);
+        }
         $serie->content=$request->content;
         $serie->title=$request->title;
-        $serie->url=$request->url;
-        $serie->acteur=$request->acteur;
+        $serie->tags=$request->tags;
+        $serie->url=$url;
+        $serie->acteur_id=$request->acteur;
         $serie->status=$request->status;
+        $serie->is_populair=$request->is_populair;
+        $serie->trailler_url=$request->trailler_url;
+        $serie->user_id=Auth::user()->id;
+
         $serie->save();
         /**
          *  create a flash message
@@ -166,7 +190,7 @@ class SerieController extends Controller
         /**
          *  go back to home
          */
-        return redirect()->route('series.index');
+        return redirect()->route('user.series');
     }
 
     /**
@@ -189,7 +213,7 @@ class SerieController extends Controller
      */
     public function favorite(Request $request){
         $serie=Serie::find($request->serie_id);
-        $serie->rating()->syncWithoutDetaching(Auth::user());
+        Auth::user()->favorite()->syncWithoutDetaching([$serie->id]);
         $request->session()->flash('status','serie was deleted with success');
         return redirect()->back();
     }
@@ -243,7 +267,7 @@ class SerieController extends Controller
         if(Auth::user()->is_admin){
             $series=Serie::all();
         }else{
-            $serie=Serie::where('user_id',Auth::user()->id)->get();
+            $series=Serie::where('user_id',Auth::user()->id)->get();
         }
         return view('admin.serie.series',[
             'series'=>$series,

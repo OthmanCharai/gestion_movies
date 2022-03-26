@@ -21,8 +21,14 @@
 
 							<li><a href="{{ route('serie') }}">tv - series</a></li>
 
-                            <li><a href="{{ route('contact') }}">Contact</a></li>
-
+                            <li><a href="{{ route('contact.index') }}">Contact</a></li>
+                            @auth
+                                <li><a href="{{ route('user.series') }}">My Series</a></li>
+                                <li class=""><a href="{{ route('acteur.index') }}">Acteurs</a></li>
+                            @endauth
+                            @can('isAdmin')
+                                <li><a href="{{ route('user.index') }}">User</a></li>
+                            @endcan
 						</ul>
 					</nav>
 				</div>
@@ -208,7 +214,7 @@
                                     </div>
                                 </div>
                                 <div class="ribben">
-                                    <p>{{ $serie->acteur }}</p>
+                                    <p>{{ $serie->acteur->name }}</p>
                                 </div>
                             </div>
                         @endforeach
@@ -277,7 +283,7 @@
                                         <p class="fexi_header_para"><span class="conjuring_w3">Story Line<label>:</label></span>{{ $populairs[0]->content }}</p>
                                         <br>
 
-                                        <p class="fexi_header_para"><span>Acteur<label>:</label></span> {{ $populairs[0]->acteur }} </p>
+                                        <p class="fexi_header_para"><span>Acteur<label>:</label></span> {{ $populairs[0]->acteur->name }} </p>
                                         <br>
 
                                         <p class="fexi_header_para">

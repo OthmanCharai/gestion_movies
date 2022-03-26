@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->text('title');
             $table->text('content');
-            $table->text('acteur');
             $table->text('url');
             $table->text('tags');
             $table->text('status');
+            $table->foreignId('acteur_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
@@ -35,6 +35,8 @@ return new class extends Migration
     {
         Schema::table('series',function(Blueprint $table){
             $table->dropForeign('series_user_id_foreign');
+            $table->dropForeign('series_acteur_id_foreign');
+
         });
         Schema::dropIfExists('series');
     }

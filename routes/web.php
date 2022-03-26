@@ -34,7 +34,10 @@ use Illuminate\Support\Facades\Route;
      *  get series pages
      */
     Route::get('/serie','SerieController@series')->name('serie');
-
+    /**
+     *  user route
+     */
+    Route::resource('/user',UserController::class)->only(['destroy','index']);
     /**
      *  admin series
      */
@@ -51,16 +54,15 @@ use Illuminate\Support\Facades\Route;
      */
     Route::resource('/comment',CommentController::class);
 
+    /**
+     * Acteur Route
+     */
+    Route::resource('/acteur',ActeurController::class);
 
-    Route::get('/contact',function(){
-        return view('contact');
-    })->name('contact');
+    Auth::routes();
 
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+    Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
